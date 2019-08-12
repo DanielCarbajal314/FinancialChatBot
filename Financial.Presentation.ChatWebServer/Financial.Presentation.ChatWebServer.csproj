@@ -9,7 +9,16 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.7.9" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Financial.Domain.Entities\Financial.Domain.Entities.csproj" />
+    <ProjectReference Include="..\Financial.Infrastructure.EFDataPersistance\Financial.Infrastructure.EFDataPersistance.csproj" />
+    <ProjectReference Include="..\Financial.Services.EFImplementation\Financial.Services.EFImplementation.csproj" />
+    <ProjectReference Include="..\Financial.Services.Interfaces\Financial.Services.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>
