@@ -6,9 +6,11 @@ using Financial.Services.Interfaces.Requests.Command;
 using Financial.Services.Interfaces.Requests.Query;
 using Financial.Services.Interfaces.Responses;
 using Financial.Services.Interfaces.Responses.Query;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Financial.Services.EFImplementation
 {
@@ -16,25 +18,26 @@ namespace Financial.Services.EFImplementation
     {
         public ChatHandler(ChatContext db) : base(db) { }
 
-        public IEnumerable<SentMessage> GetLastMessages(int numberOfMessagesToList)
+        public async Task<IEnumerable<SentMessage>> GetLastMessages(int numberOfMessagesToList)
         {
-            return this._chatContext.ChatMessages
-                             .OrderBy(x=>x.SendDate)
-                             .TakeLast(numberOfMessagesToList)
-                             .ToList()
-                             .Select(x=>x.ToDTO());
+            var messages = await this._chatContext.ChatMessages
+                                     .OrderByDescending(x => x.SendDate)
+                                     .Take(numberOfMessagesToList)
+                                     .ToListAsync();
+
+            return messages.Select(x => x.ToDTO());
         }
 
-        public StockQueryQueuedResult GetStock(StockQuery query)
+        public async Task<StockQueryQueuedResult> GetStock(StockQuery query)
         {
             throw new NotImplementedException();
         }
 
-        public SentMessage SendMessage(SendChatMessageCommand command,string userName)
+        public async Task<SentMessage> SendMessage(SendChatMessageCommand command,string userName)
         {
             var newChatMessage = command.ToEntity(userName);
             this._chatContext.ChatMessages.Add(newChatMessage);
-            this._chatContext.SaveChanges();
+            await this._chatContext.SaveChangesAsync();
             return newChatMessage.ToDTO();
         }
     }

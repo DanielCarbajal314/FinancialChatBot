@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Financial.Infrastructure.EF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Financial.Services.EFImplementation", "Financial.Services.EFImplementation\Financial.Services.EFImplementation.csproj", "{2B1CCA4D-9405-47AE-B6FF-F4C4E30E1DD2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Financial.Presentation.BackGoundStockService", "Financial.Presentation.BackGoundStockService\Financial.Presentation.BackGoundStockService.csproj", "{E2A9C700-0121-4B75-9A6A-1C17B7DF9CF4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,10 @@ Global
 		{2B1CCA4D-9405-47AE-B6FF-F4C4E30E1DD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B1CCA4D-9405-47AE-B6FF-F4C4E30E1DD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B1CCA4D-9405-47AE-B6FF-F4C4E30E1DD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2A9C700-0121-4B75-9A6A-1C17B7DF9CF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2A9C700-0121-4B75-9A6A-1C17B7DF9CF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2A9C700-0121-4B75-9A6A-1C17B7DF9CF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2A9C700-0121-4B75-9A6A-1C17B7DF9CF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,6 +86,7 @@ Global
 		{62B8AAB7-0C9E-4870-9315-26643BEA2BFD} = {1AF62EF1-AAE8-4D19-93F9-E3E5122BAE4C}
 		{23566F99-D2EB-4082-B780-BB7FA42911AF} = {150DC33E-E33F-42EC-9687-68E266809CA0}
 		{2B1CCA4D-9405-47AE-B6FF-F4C4E30E1DD2} = {1AF62EF1-AAE8-4D19-93F9-E3E5122BAE4C}
+		{E2A9C700-0121-4B75-9A6A-1C17B7DF9CF4} = {90B0551E-0B27-4CF9-9AA5-E7FB4DA73B6D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {72A46293-12BB-43D1-AB25-D58E03232099}

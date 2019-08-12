@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Financial.Presentation.ChatWebServer.Controllers.Shared;
+using Financial.Presentation.ChatWebServer.Hubs;
 using Financial.Services.Interfaces.Handlers;
 using Financial.Services.Interfaces.Requests.Command;
 using Financial.Services.Interfaces.Requests.Query;
@@ -9,39 +11,44 @@ using Financial.Services.Interfaces.Responses;
 using Financial.Services.Interfaces.Responses.Query;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Financial.Presentation.ChatWebServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ChatController : ControllerBase
+    public class ChatController : BaseAPIController
     {
         IChatHandler _chatHandler;
+        private readonly IHubContext<ChatHub> _chatHubContext;
 
-        public ChatController(IChatHandler chatHandler)
+        public ChatController(IChatHandler chatHandler, IHubContext<ChatHub> chatHubContext)
         {
             this._chatHandler = chatHandler;
+            this._chatHubContext = chatHubContext;
         }
 
         [HttpGet]
-        [Route("GetStock")]
-        public IEnumerable<SentMessage> GetLastMessages()
+        [Route("GetLastMessages")]
+        public async Task<IEnumerable<SentMessage>> GetLastMessages()
         {
-            return this._chatHandler.GetLastMessages(50);
+            return await this._chatHandler.GetLastMessages(50);
         }
 
         [HttpPost]
         [Route("SendMessage")]
-        public SentMessage SendMessage(SendChatMessageCommand command)
+        public async Task<SentMessage> SendMessage(SendChatMessageCommand command)
         {
-            return this._chatHandler.SendMessage(command,"Daniel");
+            var message = await this._chatHandler.SendMessage(command, "Daniel");
+            await this._chatHubContext.Clients.All.SendAsync("UserSentMessage", message);
+            return message;
         }
 
         [HttpGet]
         [Route("GetStock")]
-        public StockQueryQueuedResult GetStock([FromQuery]StockQuery query)
+        public async Task<StockQueryQueuedResult> GetStock([FromQuery]StockQuery query)
         {
-            return this._chatHandler.GetStock(query);
+            return await this._chatHandler.GetStock(query);
         }        
     }
 }
