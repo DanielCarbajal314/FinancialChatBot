@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Financial.Domain.Entities\Financial.Domain.Entities.csproj" />
     <ProjectReference Include="..\Financial.Infrastructure.EFDataPersistance\Financial.Infrastructure.EFDataPersistance.csproj" />
+    <ProjectReference Include="..\Financial.Infrastructure.MessageQueu\Financial.Infrastructure.MessageQueu.csproj" />
     <ProjectReference Include="..\Financial.Services.EFImplementation\Financial.Services.EFImplementation.csproj" />
     <ProjectReference Include="..\Financial.Services.Interfaces\Financial.Services.Interfaces.csproj" />
   </ItemGroup>

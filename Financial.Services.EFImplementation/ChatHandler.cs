@@ -1,4 +1,6 @@
 ﻿using Financial.Infrastructure.EFDataPersistance;
+using Financial.Infrastructure.MessageQueu;
+using Financial.Infrastructure.MessageQueu.DTO;
 using Financial.Services.EFImplementation.Mappers;
 using Financial.Services.EFImplementation.Shared;
 using Financial.Services.Interfaces.Handlers;
@@ -16,7 +18,12 @@ namespace Financial.Services.EFImplementation
 {
     public class ChatHandler : BaseEFHandler, IChatHandler
     {
-        public ChatHandler(ChatContext db) : base(db) { }
+        private readonly IRabbitMessageService _rabbitMessageService;
+
+        public ChatHandler(ChatContext db, IRabbitMessageService rabbitMessageService) : base(db)
+        {
+            this._rabbitMessageService = rabbitMessageService;
+        }
 
         public async Task<IEnumerable<SentMessage>> GetLastMessages(int numberOfMessagesToList)
         {
@@ -30,7 +37,14 @@ namespace Financial.Services.EFImplementation
 
         public async Task<StockQueryQueuedResult> GetStock(StockQuery query)
         {
-            throw new NotImplementedException();
+            _rabbitMessageService.PublishStockQueuRequest( new StockQueryData() {
+                StockCode = query.StockCode
+            });
+            return new StockQueryQueuedResult()
+            {
+                Message = "Stock Query was queued",
+                Status = "Successfull"
+            };
         }
 
         public async Task<SentMessage> SendMessage(SendChatMessageCommand command,string userName)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Financial.Infrastructure.MessageQueu;
 using Financial.Presentation.ChatWebServer.Controllers.Shared;
 using Financial.Presentation.ChatWebServer.Hubs;
 using Financial.Services.Interfaces.Handlers;
@@ -22,7 +23,11 @@ namespace Financial.Presentation.ChatWebServer.Controllers
         IChatHandler _chatHandler;
         private readonly IHubContext<ChatHub> _chatHubContext;
 
-        public ChatController(IChatHandler chatHandler, IHubContext<ChatHub> chatHubContext)
+        public ChatController
+        (
+            IChatHandler chatHandler,
+            IHubContext<ChatHub> chatHubContext
+        )
         {
             this._chatHandler = chatHandler;
             this._chatHubContext = chatHubContext;

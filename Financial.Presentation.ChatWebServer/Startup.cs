@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Financial.Infrastructure.EFDataPersistance;
+using Financial.Infrastructure.MessageQueu;
+using Financial.Infrastructure.MessageQueu.Configuration;
 using Financial.Presentation.ChatWebServer.Filters;
 using Financial.Presentation.ChatWebServer.Hubs;
 using Financial.Services.EFImplementation;
@@ -44,6 +46,8 @@ namespace Financial.Presentation.ChatWebServer
                 
             });
             services.AddTransient<IChatHandler, ChatHandler>();
+            services.AddTransient<IRabbitMessageService, RabbitMessageService>();
+            services.Configure<RabbitMqConnectionSettings>(Configuration.GetSection("RabbitMqConnectionSettings"));
             services.AddScoped<ExceptionFilter>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSignalR();
