@@ -10,6 +10,7 @@ using Financial.Services.Interfaces.Requests.Command;
 using Financial.Services.Interfaces.Requests.Query;
 using Financial.Services.Interfaces.Responses;
 using Financial.Services.Interfaces.Responses.Query;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -18,6 +19,7 @@ namespace Financial.Presentation.ChatWebServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ChatController : BaseAPIController
     {
         IChatHandler _chatHandler;
@@ -44,7 +46,8 @@ namespace Financial.Presentation.ChatWebServer.Controllers
         [Route("SendMessage")]
         public async Task<SentMessage> SendMessage(SendChatMessageCommand command)
         {
-            var message = await this._chatHandler.SendMessage(command, "Daniel");
+            var userEmail = this.User.Claims.ElementAt(0).Value;
+            var message = await this._chatHandler.SendMessage(command, userEmail);
             await this._chatHubContext.Clients.All.SendAsync("UserSentMessage", message);
             return message;
         }

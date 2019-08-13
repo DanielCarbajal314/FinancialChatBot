@@ -5,21 +5,65 @@
     <h1>Finalcial Chat <small> Jobsity Test</small></h1>
 </div>
 <div class="container row" id="app">
-    <div class="col-md-4">
-        <div class="form-group">
-            <label>Message</label>
-            <textarea v-model="message" class="form-control"></textarea>
+    <div class="col-md-6" v-if="!isLoggedIn">
+        <ul class="nav nav-tabs">
+            <li v-bind:class="{ 'active' : !showRegister}" ><a v-on:click="ShowLogin">Login</a></li>
+            <li v-bind:class="{ 'active' : showRegister}"><a v-on:click="ShowRegister">Register</a></li>
+        </ul>
+        <div class="tab-content">
+            <div v-if="showRegister">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input v-model="username" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>email</label>
+                    <input v-model="email" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input v-model="password" type="password" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input v-model="confirmPassword" type="password" class="form-control" />
+                </div>
+                <div>
+                    <button class="btn btn-primary" v-on:click="Register">Register</button>
+                </div>
+            </div>
+            <div v-if="!showRegister">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input v-model="username" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input v-model="password" type="password" class="form-control" />
+                </div>
+                <div>
+                    <button class="btn btn-primary" v-on:click="Login">Login</button>
+                </div>
+            </div>
         </div>
-        <div>
-            <button class="btn btn-primary" v-on:click="pressSendButton">Send</button>
-        </div>
-
     </div>
-    <div class="col-md-8">
-        <div class="panel row" v-for="message in messageList"  v-bind:class="{ 'panel-primary' : message.IsUserMessage, 'panel-success' : !message.IsUserMessage }">
-            <div class="panel-heading"><strong class="col-md-9">{{message.username}}</strong><small>{{message.sendDate}}</small></div>
-            <div class="panel-body">
-                {{message.message}}
+    <div v-if="isLoggedIn">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Message</label>
+                <textarea v-model="message" class="form-control"></textarea>
+            </div>
+            <div>
+                <button class="btn btn-primary" v-on:click="pressSendButton">Send</button>
+            </div>
+
+        </div>
+        <div class="col-md-8">
+            <div class="panel row" v-for="message in messageList" v-bind:class="{ 'panel-primary' : message.IsUserMessage, 'panel-success' : !message.IsUserMessage }">
+                <div class="panel-heading"><strong class="col-md-9">{{message.username}}</strong><small>{{message.sendDate}}</small></div>
+                <div class="panel-body">
+                    {{message.message}}
+                </div>
             </div>
         </div>
     </div>
@@ -30,7 +74,13 @@
         el: '#app',
         data: {
             message: '',
-            messageList: []
+            messageList: [],
+            isLoggedIn: false,
+            showRegister: false,
+            username: '',
+            password: '',
+            email: '',
+            confirmPassword:''
         },
         methods: {
             getChatMessages: function () {
@@ -87,6 +137,18 @@
                         contentType: 'application/json',
                         type: 'POST'
                     });
+            },
+            ShowRegister: function () {
+                this.showRegister = true;
+            },
+            ShowLogin: function () {
+                this.showRegister = false;
+            },
+            Login: function () {
+
+            },
+            Register: function () {
+
             }
         }
     });
