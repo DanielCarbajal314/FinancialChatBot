@@ -6,6 +6,12 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/core/sdk:2.1-stretch AS build
 WORKDIR /src
 COPY ["Financial.Presentation.ChatWebServer/Financial.Presentation.ChatWebServer.csproj", "Financial.Presentation.ChatWebServer/"]
+COPY ["Financial.Infrastructure.MessageQueu/Financial.Infrastructure.MessageQueu.csproj", "Financial.Infrastructure.MessageQueu/"]
+COPY ["Financial.Infrastructure.ExternalServices.StooqClient/Financial.Infrastructure.ExternalServices.StooqClient.csproj", "Financial.Infrastructure.ExternalServices.StooqClient/"]
+COPY ["Financial.Services.EFImplementation/Financial.Services.EFImplementation.csproj", "Financial.Services.EFImplementation/"]
+COPY ["Financial.Services.Interfaces/Financial.Services.Interfaces.csproj", "Financial.Services.Interfaces/"]
+COPY ["Financial.Domain.Entities/Financial.Domain.Entities.csproj", "Financial.Domain.Entities/"]
+COPY ["Financial.Infrastructure.EFDataPersistance/Financial.Infrastructure.EFDataPersistance.csproj", "Financial.Infrastructure.EFDataPersistance/"]
 RUN dotnet restore "Financial.Presentation.ChatWebServer/Financial.Presentation.ChatWebServer.csproj"
 COPY . .
 WORKDIR "/src/Financial.Presentation.ChatWebServer"
