@@ -9,6 +9,6 @@ namespace Financial.Infrastructure.ExternalServices.StooqClient
 {
     public interface IStooqClient
     {
-        Stock QueryStock(string stockName); 
+        Task<Stock> QueryStock(string stockName); 
     }
 }

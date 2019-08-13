@@ -8,8 +8,8 @@ namespace Financial.Test.ConsoleApp
     {
         static void Main(string[] args)
         {
-            StooqClient stooqClient = new StooqClient(new HttpClient());
-            var result = stooqClient.QueryStock("aapl.us").Result;
+            //StooqClient stooqClient = new StooqClient(new HttpClient());
+            //var result = stooqClient.QueryStock("aapl.us").Result;
 
             Console.WriteLine("Hello World!");
 

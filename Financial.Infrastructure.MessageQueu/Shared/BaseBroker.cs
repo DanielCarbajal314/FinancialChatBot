@@ -29,7 +29,7 @@ namespace Financial.Infrastructure.MessageQueu.Shared
             };
         }
 
-        protected void Publish(object message,string queueName)
+        protected void Publish(object message,string queueName, string exchange = "amq.direct")
         {
             using (var conn = this._connectionFactory.CreateConnection())
             {
@@ -37,15 +37,15 @@ namespace Financial.Infrastructure.MessageQueu.Shared
                 {
                     channel.QueueDeclare(
                         queue: queueName,
-                        durable: false,
+                        durable: true,
                         exclusive: false,
                         autoDelete: false,
                         arguments: null
                     );
                     var jsonPayload = JsonConvert.SerializeObject(message);
                     var body = Encoding.UTF8.GetBytes(jsonPayload);
-                    channel.BasicPublish(exchange: "",
-                        routingKey: queueName,
+                    channel.BasicPublish(exchange: exchange,
+                        routingKey: queueName,                        
                         basicProperties: null,
                         body: body
                     );
