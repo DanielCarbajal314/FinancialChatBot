@@ -10,24 +10,32 @@ namespace Financial.Infrastructure.MessageQueu.BackGroundServices
 {
     public class BackgroundStockQueryService : BackgroundService
     {
-        IRabbitMessageService _rabbitMessageService;
+        IRabbitStockQuery _rabbitStockQuery;
+        IRabbitStockResponse _rabbitStockResponse;
         IStooqClient _stooqClient;
 
-        public BackgroundStockQueryService(IRabbitMessageService rabbitMessageService, IStooqClient stooqClient) {
-            this._rabbitMessageService = rabbitMessageService;
+        public BackgroundStockQueryService
+        (
+            IRabbitStockQuery rabbitStockQuery,
+            IRabbitStockResponse rabbitStockResponse,
+            IStooqClient stooqClient
+        )
+        {
+            this._rabbitStockQuery = rabbitStockQuery;
+            this._rabbitStockResponse = rabbitStockResponse;
             this._stooqClient = stooqClient;
-            _rabbitMessageService.InitStockQueryEvent();
+            _rabbitStockQuery.InitStockQueryEvent();
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            this._rabbitMessageService.SubscribeToStockQueryEvent(async stockQuery =>
+            this._rabbitStockQuery.SubscribeToStockQueryEvent(async stockQuery =>
             {
                 Console.WriteLine($"Recieved to query : {stockQuery.StockCode}");
                 try
                 {
                     var result = await this._stooqClient.QueryStock(stockQuery.StockCode);
-                    this._rabbitMessageService.PublishStockQueuedResponst(new DTO.StockQueryResult()
+                    this._rabbitStockResponse.PublishStockQueuedResponse(new DTO.StockQueryResult()
                     {
                         WasSuccessfull = true,
                         Message = $"The stock price is {result.Close}"
@@ -35,7 +43,7 @@ namespace Financial.Infrastructure.MessageQueu.BackGroundServices
                 }
                 catch
                 {
-                    this._rabbitMessageService.PublishStockQueuedResponst(new DTO.StockQueryResult()
+                    this._rabbitStockResponse.PublishStockQueuedResponse(new DTO.StockQueryResult()
                     {
                         WasSuccessfull = false,
                         Message = "Requested Stock Query Failed"
@@ -47,7 +55,8 @@ namespace Financial.Infrastructure.MessageQueu.BackGroundServices
 
         public override void Dispose()
         {
-            this._rabbitMessageService.Dispose();
+            this._rabbitStockResponse.Dispose();
+            this._rabbitStockQuery.Dispose();
             base.Dispose();
         }
     }

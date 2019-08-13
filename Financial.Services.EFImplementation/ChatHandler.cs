@@ -18,9 +18,9 @@ namespace Financial.Services.EFImplementation
 {
     public class ChatHandler : BaseEFHandler, IChatHandler
     {
-        private readonly IRabbitMessageService _rabbitMessageService;
+        private readonly IRabbitStockQuery _rabbitMessageService;
 
-        public ChatHandler(ChatContext db, IRabbitMessageService rabbitMessageService) : base(db)
+        public ChatHandler(ChatContext db, IRabbitStockQuery rabbitMessageService) : base(db)
         {
             this._rabbitMessageService = rabbitMessageService;
         }

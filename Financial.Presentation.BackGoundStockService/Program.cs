@@ -27,7 +27,6 @@ namespace Financial.Presentation.BackGoundStockService
                                     services.AddHostedService<BackgroundStockQueryService>();
                                 });
             builder.RunConsoleAsync();
-            Console.ReadKey();
         }
 
 
@@ -43,7 +42,8 @@ namespace Financial.Presentation.BackGoundStockService
         {
             services.Configure<RabbitMqConnectionSettings>(Program.config.GetSection("RabbitMqConnectionSettings"));
             services.AddHttpClient<StooqClient>().SetHandlerLifetime(TimeSpan.FromMinutes(5));
-            services.AddTransient<IRabbitMessageService, RabbitMessageService>();
+            services.AddTransient<IRabbitStockQuery, RabbitStockQuery>();
+            services.AddTransient<IRabbitStockResponse, RabbitStockResponse>();
             services.AddTransient<IStooqClient, StooqClient>();
             var resolver = services.BuildServiceProvider();
         }

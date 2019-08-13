@@ -3,13 +3,10 @@ using Financial.Infrastructure.MessageQueu.DTO;
 
 namespace Financial.Infrastructure.MessageQueu
 {
-    public interface IRabbitMessageService : IDisposable
+    public interface IRabbitStockQuery : IDisposable
     {
         void InitStockQueryEvent();
         void PublishStockQueuRequest(StockQueryData message);
-        void PublishStockQueuedResponst(StockQueryResult message);
         void SubscribeToStockQueryEvent(Action<StockQueryData> action);
-        void InitStockQueryResponseEvent();
-        void SubscribeToStockQueryResponseEvent(Action<StockQueryResult> action);
     }
 }

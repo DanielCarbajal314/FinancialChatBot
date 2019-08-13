@@ -16,7 +16,7 @@
 
     </div>
     <div class="col-md-8">
-        <div class="panel row" v-for="message in messageList"  v-bind:class="{ 'panel-primary' : message.IsUserMessage }">
+        <div class="panel row" v-for="message in messageList"  v-bind:class="{ 'panel-primary' : message.IsUserMessage, 'panel-success' : !message.IsUserMessage }">
             <div class="panel-heading"><strong class="col-md-9">{{message.username}}</strong><small>{{message.sendDate}}</small></div>
             <div class="panel-body">
                 {{message.message}}
@@ -100,7 +100,7 @@
     });
 
     connection.on("BotSentMessage", function (newMessage) {
-        app.addMessageToPanel(newMessage);
+        app.addBotMessageToPanel(newMessage);
     });
 
     connection.start()

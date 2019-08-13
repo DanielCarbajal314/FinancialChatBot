@@ -13,23 +13,23 @@ namespace Financial.Presentation.ChatWebServer.BackgroundTask
 {
     public class StockResponseBackgroundMessageBroker : BackgroundService
     {
-        private IRabbitMessageService _rabbitMessageService;
+        IRabbitStockResponse _rabbitStockResponse;
         private readonly IHubContext<ChatHub> _chatHubContext;
 
         public StockResponseBackgroundMessageBroker
         (
-            IRabbitMessageService rabbitMessageService,
+            IRabbitStockResponse rabbitMessageService,
             IHubContext<ChatHub> chatHubContext
         )
         {
             this._chatHubContext = chatHubContext;
-            this._rabbitMessageService = rabbitMessageService;
-            this._rabbitMessageService.InitStockQueryResponseEvent();
+            this._rabbitStockResponse = rabbitMessageService;
+            this._rabbitStockResponse.InitStockQueryResponseEvent();
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            this._rabbitMessageService.SubscribeToStockQueryResponseEvent(async stockResponse=>{
+            this._rabbitStockResponse.SubscribeToStockQueryResponseEvent(async stockResponse=>{
                 Console.WriteLine($"Data arrived {stockResponse.Message}");
                 await this._chatHubContext.Clients.All.SendAsync("BotSentMessage", new SentMessage() {
                     Message = stockResponse.Message,
@@ -42,7 +42,7 @@ namespace Financial.Presentation.ChatWebServer.BackgroundTask
 
         public override void Dispose()
         {
-            this._rabbitMessageService.Dispose();
+            this._rabbitStockResponse.Dispose();
             base.Dispose();
         }
     }

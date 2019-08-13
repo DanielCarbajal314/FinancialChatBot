@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Financial.Infrastructure.MessageQueu.Shared
 {
-    public class BaseBroker
+    public class BaseBroker : IDisposable
     {
         protected readonly RabbitMqConnectionSettings _connectionSettings;
         protected readonly ConnectionFactory _connectionFactory;
@@ -27,6 +27,15 @@ namespace Financial.Infrastructure.MessageQueu.Shared
                 HostName = this._connectionSettings.HostName,
                 Uri = new Uri(this._connectionSettings.Uri)
             };
+        }
+
+        public void Dispose()
+        {
+            if (this._channel == null)
+            {
+                this._channel.Close();
+                this._connection.Close();
+            }
         }
 
         protected void Publish(object message,string queueName, string exchange = "amq.direct")

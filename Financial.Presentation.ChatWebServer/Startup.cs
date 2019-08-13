@@ -47,12 +47,13 @@ namespace Financial.Presentation.ChatWebServer
                 
             });
             services.AddTransient<IChatHandler, ChatHandler>();
-            services.AddTransient<IRabbitMessageService, RabbitMessageService>();
+            services.AddTransient<IRabbitStockQuery, RabbitStockQuery>();
+            services.AddTransient<IRabbitStockResponse, RabbitStockResponse>();
             services.Configure<RabbitMqConnectionSettings>(Configuration.GetSection("RabbitMqConnectionSettings"));
             services.AddScoped<ExceptionFilter>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddHostedService<StockResponseBackgroundMessageBroker>();
             services.AddSignalR();
+            services.AddHostedService<StockResponseBackgroundMessageBroker>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
