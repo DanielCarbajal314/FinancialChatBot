@@ -31,7 +31,7 @@ namespace Financial.Infrastructure.MessageQueu.Shared
 
         public void Dispose()
         {
-            if (this._channel == null)
+            if (this._channel != null)
             {
                 this._channel.Close();
                 this._connection.Close();
