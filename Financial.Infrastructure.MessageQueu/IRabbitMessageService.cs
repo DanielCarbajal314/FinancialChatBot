@@ -9,5 +9,7 @@ namespace Financial.Infrastructure.MessageQueu
         void PublishStockQueuRequest(StockQueryData message);
         void PublishStockQueuedResponst(StockQueryResult message);
         void SubscribeToStockQueryEvent(Action<StockQueryData> action);
+        void InitStockQueryResponseEvent();
+        void SubscribeToStockQueryResponseEvent(Action<StockQueryResult> action);
     }
 }

@@ -68,7 +68,7 @@ namespace Financial.Infrastructure.MessageQueu
         {
             this._connection = _connectionFactory.CreateConnection();
             this._channel = _connection.CreateModel();
-            _channel.ExchangeDeclare("amq.fanout", ExchangeType.Direct, durable: true);
+            _channel.ExchangeDeclare("amq.fanout", ExchangeType.Fanout, durable: true);
             _channel.QueueDeclare(this._connectionSettings.StockRequestCalculationResponseQueu, true, false, false, null);
             _channel.QueueBind(this._connectionSettings.StockRequestCalculationResponseQueu, "amq.fanout", this._connectionSettings.StockRequestCalculationResponseQueu, null);
             _channel.BasicQos(0, 1, false);
