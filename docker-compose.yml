@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  financial.presentation.backgoundstockservice:
+    image: ${DOCKER_REGISTRY-}financialpresentationbackgoundstockservice
+    build:
+      context: .
+      dockerfile: Financial.Presentation.BackGoundStockService/Dockerfile
