@@ -19,7 +19,6 @@ namespace Financial.Presentation.ChatWebServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class ChatController : BaseAPIController
     {
         IChatHandler _chatHandler;
@@ -44,6 +43,7 @@ namespace Financial.Presentation.ChatWebServer.Controllers
 
         [HttpPost]
         [Route("SendMessage")]
+        [Authorize]
         public async Task<SentMessage> SendMessage(SendChatMessageCommand command)
         {
             var userEmail = this.User.Claims.ElementAt(0).Value;

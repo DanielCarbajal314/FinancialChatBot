@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Financial.Presentation.ChatWebServer.Controllers.Shared;
 using Financial.Presentation.ChatWebServer.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -16,7 +17,7 @@ namespace Financial.Presentation.ChatWebServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LoginController : ControllerBase
+    public class LoginController : BaseAPIController
     {
         private UserManager<IdentityUser> _identityUserManager;
         private SignInManager<IdentityUser> _identitySignInManager;
